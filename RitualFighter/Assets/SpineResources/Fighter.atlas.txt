@@ -1,13 +1,48 @@
 
 Fighter.png
-size: 256,256
+size: 1024,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+Body
+  rotate: true
+  xy: 2, 2
+  size: 216, 456
+  orig: 216, 456
+  offset: 0, 0
+  index: -1
 Circle
   rotate: false
-  xy: 2, 2
+  xy: 724, 35
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+Foot
+  rotate: true
+  xy: 854, 38
+  size: 125, 55
+  orig: 125, 55
+  offset: 0, 0
+  index: -1
+Hand
+  rotate: true
+  xy: 911, 77
+  size: 86, 53
+  orig: 86, 53
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 460, 15
+  size: 203, 262
+  orig: 203, 262
+  offset: 0, 0
+  index: -1
+Limbs
+  rotate: false
+  xy: 724, 165
+  size: 218, 53
+  orig: 218, 53
   offset: 0, 0
   index: -1
