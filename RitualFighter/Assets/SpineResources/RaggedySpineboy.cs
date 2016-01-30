@@ -12,11 +12,6 @@ public enum Player
 }
 
 public class RaggedySpineboy : MonoBehaviour {
-
-	public LayerMask groundMask;
-	public float restoreDuration = 0.5f;
-	public Vector2 launchVelocity = new Vector2(0,10);
-
     public float footForce = 200;
     public float handForce = 200;
     public float torsoForce = 100;
@@ -38,6 +33,7 @@ public class RaggedySpineboy : MonoBehaviour {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
+        
 
         torso = ragdoll.GetRigidbody("torso");
         leftFoot = ragdoll.GetRigidbody("left foot");
