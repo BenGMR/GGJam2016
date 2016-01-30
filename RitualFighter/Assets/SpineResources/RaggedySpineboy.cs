@@ -15,6 +15,7 @@ public class RaggedySpineboy : MonoBehaviour {
     public float handForce = 200;
     public float torsoForce = 100;
     public float maxYSpeedUp = 7;
+    public int knockOutAmount = 1;
 
     Rigidbody2D torso;
     Rigidbody2D leftFoot;
@@ -28,10 +29,13 @@ public class RaggedySpineboy : MonoBehaviour {
     public Player player = Player.One;
     public Player player2 = Player.One;
 
+    public GameObject StaminaBar;
+    StaminaBarScript staminaBarScript;
+
     public bool DisableControls = false;
 
 	void Start () {
-		
+        staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
         torso = ragdoll.GetRigidbody("Torso");
@@ -53,8 +57,9 @@ public class RaggedySpineboy : MonoBehaviour {
         ragdoll.joints["RightShin"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
         ragdoll.joints["LeftFoot"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
         ragdoll.joints["RightFoot"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
-
+        
     }
+   
 
     void FixedUpdate()
     {
@@ -65,8 +70,26 @@ public class RaggedySpineboy : MonoBehaviour {
         }
     }
 
+    IEnumerator staminaRegen()
+    {
+        while (staminaBarScript.Health < 100)
+        {
+            yield return new WaitForSeconds(.1f * knockOutAmount);
+            staminaBarScript.Health++;
+        }
+        staminaBarScript.Health = 100;
+        DisableControls = false;
+        staminaBarScript.Regening = false;
+        knockOutAmount++;
+    }
+
     void Update ()
     {
+        if(staminaBarScript.Health == 0)
+        {
+            DisableControls = true;
+            StartCoroutine(staminaRegen());
+        }
         if (!DisableControls)
         {
             if (Input.GetButton("Start" + ((int)player).ToString()))
@@ -111,4 +134,6 @@ public class RaggedySpineboy : MonoBehaviour {
             }
         }
     }
+
+
 }
