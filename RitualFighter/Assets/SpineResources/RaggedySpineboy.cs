@@ -56,6 +56,15 @@ public class RaggedySpineboy : MonoBehaviour {
 
     }
 
+    void FixedUpdate()
+    {
+
+        if (hip.velocity.y >= maxYSpeedUp)
+        {
+            hip.velocity = new Vector2(hip.velocity.x, maxYSpeedUp);
+        }
+    }
+
     void Update ()
     {
         if (!DisableControls)
@@ -67,10 +76,6 @@ public class RaggedySpineboy : MonoBehaviour {
             }
             hip.AddForce(new Vector2(0, 500 * Input.GetAxis("RightStickVertical" + ((int)player).ToString())));
 
-            if (hip.velocity.y >= maxYSpeedUp)
-            {
-                hip.velocity = new Vector2(hip.velocity.x, maxYSpeedUp);
-            }
             torso.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
             
 

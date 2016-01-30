@@ -70,7 +70,7 @@ public class GameScript : MonoBehaviour
                 {
                     winText.text = "Player 2 Wins!";
                     winningPlayerSkeleton = Player2.GetComponent<SkeletonRagdoll2D>();
-                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("torso");
+                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("Torso");
                     winningPlayerParticles = Player2.GetComponentInChildren<ParticleSystem>();
                     winningPlayerParticles.Play();
                 }
@@ -78,7 +78,7 @@ public class GameScript : MonoBehaviour
                 {
                     winText.text = "Player 1 Wins!";
                     winningPlayerSkeleton = Player1.GetComponent<SkeletonRagdoll2D>();
-                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("torso");
+                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("Torso");
                     winningPlayerParticles = Player1.GetComponentInChildren<ParticleSystem>();
                     winningPlayerParticles.Play();
                 }
