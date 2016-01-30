@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour {
 	public void LoadLevelAdditive(string level)
 	{
 		SceneManager.LoadScene(level, LoadSceneMode.Additive);
-		SceneManager.SetActiveScene(SceneManager.GetSceneByName(level));
+		//SceneManager.SetActiveScene(SceneManager.GetSceneByName(level));
 		//EditorSceneManager.OpenScene (level, OpenSceneMode.AdditiveWithoutLoading);
 	}
 
