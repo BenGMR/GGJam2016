@@ -26,7 +26,11 @@ public class RaggedySpineboy : MonoBehaviour {
     }
 
 	void Update () {
-        ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("Horizontal" + ((int)player).ToString()), 0));
-        ragdoll.GetRigidbody("head").AddForce(new Vector2(0, 500 * Input.GetAxis("Vertical" + ((int)player).ToString())));
+        ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
+        ragdoll.GetRigidbody("head").AddForce(new Vector2(0, 500 * Input.GetAxis("RightStickVertical" + ((int)player).ToString())));
+        if(Input.GetButton("A" + ((int)player).ToString()))
+        {
+            ragdoll.GetRigidbody("left foot").AddForce(50 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), 500 * Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+        }
 	}
 }
