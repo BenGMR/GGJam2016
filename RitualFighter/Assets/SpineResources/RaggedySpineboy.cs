@@ -25,6 +25,8 @@ public class RaggedySpineboy : MonoBehaviour {
     Rigidbody2D rightHand;
 
 	SkeletonRagdoll2D ragdoll;
+    SkeletonAnimator skele;
+
     public Player player = Player.One;
     public Player player2 = Player.One;
 
@@ -36,8 +38,9 @@ public class RaggedySpineboy : MonoBehaviour {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
-        ragdoll.CurrentFlipX = isFliped;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
+        skele = GetComponent<SkeletonAnimator>();
+        skele.Skeleton.FlipX = isFliped;
+        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
         torso = ragdoll.GetRigidbody("torso");
         leftFoot = ragdoll.GetRigidbody("left foot");
         leftHand = ragdoll.GetRigidbody("left hand");
@@ -48,60 +51,63 @@ public class RaggedySpineboy : MonoBehaviour {
 	void Update ()
     {
         powerDivisor = 1;
-        ragdoll.CurrentFlipX = isFliped;
+        skele.Skeleton.FlipX = isFliped;
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
 
-        if (Input.GetButton("A" + ((int)player).ToString()))
+        if (!DisableControls)
         {
-            powerDivisor++;
-        }
-        if (Input.GetButton("X" + ((int)player).ToString()))
-        {
-            powerDivisor++;
-        }
-        if (Input.GetButton("B" + ((int)player).ToString()))
-        {
-            powerDivisor++;
-        }
-        if (Input.GetButton("Y" + ((int)player).ToString()))
-        {
-            powerDivisor++;
-        }
-        powerDivisor = 1;
+            if (Input.GetButton("A" + ((int)player).ToString()))
+            {
+                powerDivisor++;
+            }
+            if (Input.GetButton("X" + ((int)player).ToString()))
+            {
+                powerDivisor++;
+            }
+            if (Input.GetButton("B" + ((int)player).ToString()))
+            {
+                powerDivisor++;
+            }
+            if (Input.GetButton("Y" + ((int)player).ToString()))
+            {
+                powerDivisor++;
+            }
+            powerDivisor = 1;
 
-        if (Input.GetButton("Start" + ((int)player).ToString()))
-        {
-            Debug.Log(string.Format("Start pressed on player {0}", player));
-            SceneManager.LoadScene(3);
-        }
+            if (Input.GetButton("Start" + ((int)player).ToString()))
+            {
+                Debug.Log(string.Format("Start pressed on player {0}", player));
+                SceneManager.LoadScene(3);
+            }
 
-        ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
+            ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
 
-        if(Input.GetButtonDown("RightBumper" + ((int)player).ToString()))
-        {
-            torso.AddForce(new Vector2(0, torsoForce), ForceMode2D.Impulse);
-        }
-        if (torso.velocity.y >= maxYSpeedUp)
-        {
-            torso.velocity = new Vector2(ragdoll.GetRigidbody("torso").velocity.x, maxYSpeedUp);
-        }
+            if (Input.GetButtonDown("RightBumper" + ((int)player).ToString()))
+            {
+                torso.AddForce(new Vector2(0, torsoForce), ForceMode2D.Impulse);
+            }
+            if (torso.velocity.y >= maxYSpeedUp)
+            {
+                torso.velocity = new Vector2(ragdoll.GetRigidbody("torso").velocity.x, maxYSpeedUp);
+            }
 
 
-        if (Input.GetButton("A" + ((int)player+1).ToString()))
-        {
-            leftFoot.AddForce((footForce/powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
-        }
-        if (Input.GetButton("B" + ((int)player).ToString()))
-        {
-            rightFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
-        }
-        if (Input.GetButton("X" + ((int)player+1).ToString()))
-        {
-            leftHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
-        }
-        if (Input.GetButton("Y" + ((int)player).ToString()))
-        {
-            rightHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            if (Input.GetButton("A" + ((int)player + 1).ToString()))
+            {
+                leftFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            }
+            if (Input.GetButton("B" + ((int)player).ToString()))
+            {
+                rightFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            }
+            if (Input.GetButton("X" + ((int)player + 1).ToString()))
+            {
+                leftHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            }
+            if (Input.GetButton("Y" + ((int)player).ToString()))
+            {
+                rightHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            }
         }
     }
 }
