@@ -44,63 +44,53 @@ public class SelectionArrowBehavior : MonoBehaviour
         }
 
 
-            char indexChar = this.name[name.Length - 1];
-            float axisValue = Input.GetAxis("LeftStickHorizontal" + indexChar.ToString());
+        char indexChar = this.name[name.Length - 1];
+        float axisValue = Input.GetAxis("LeftStickHorizontal" + indexChar.ToString());
 
-            if (Math.Abs(axisValue) > .5f)
+        if (Math.Abs(axisValue) > .5f)
+        {
+            if (!previousMove)
             {
-                if (!previousMove)
+                if (axisValue < 0)
                 {
-                    if (axisValue < 0)
+                    if (this.name == "LeftArrowImage" + indexChar)
                     {
-                        if (this.name == "LeftArrowImage" + indexChar)
+                        if (noSelection)
                         {
-                            if (noSelection)
-                            {
-                                selected = true;
-                                noSelection = false;
-                            }
-                            else
-                            {
-                                noSelection = true;
-                                image.color = Color.red;
-                            }
-                        }
-                        else
-                        {
+                            selected = true;
                             noSelection = false;
-                            selected = false;
                         }
                     }
                     else
                     {
-                        if (this.name == "RightArrowImage" + indexChar)
+                        noSelection = false;
+                        selected = false;
+                    }
+                }
+                else
+                {
+                    if (this.name == "RightArrowImage" + indexChar)
+                    {
+                        if (noSelection)
                         {
-                            if (noSelection)
-                            {
-                                selected = true;
-                                noSelection = false;
-                            }
-                            else
-                            {
-                                noSelection = true;
-                                image.color = Color.red;
-                            }
-                        }
-                        else
-                        {
+                            selected = true;
                             noSelection = false;
-                            selected = false;
                         }
                     }
-
-                    previousMove = true;
+                    else
+                    {
+                        noSelection = false;
+                        selected = false;
+                    }
                 }
+
+                previousMove = true;
             }
-            else
-            {
-                previousMove = false;
-            }
-        
+        }
+        else
+        {
+            previousMove = false;
+        }
+
     }
 }
