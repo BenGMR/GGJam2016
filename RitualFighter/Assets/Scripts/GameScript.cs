@@ -24,9 +24,17 @@ public class GameScript : MonoBehaviour
     RaggedySpineboy player1Script;
     RaggedySpineboy player2Script;
 
+    Rigidbody2D winningPlayerRigidBody;
+    SkeletonRagdoll2D winningPlayerSkeleton;
+    ParticleSystem winningPlayerParticles;
+
+    public bool DEBUG = false;
+    
     float elapsedTime = 0;
     float timeUntilPersonLoses = 1;
     float timePerFlash = 0.5f;
+
+    public float floatingForce = .1f;
 
     bool bothPlayersLost = false;
 
@@ -61,10 +69,18 @@ public class GameScript : MonoBehaviour
                 else if (playerThatLost == "Player1")
                 {
                     winText.text = "Player 2 Wins!";
+                    winningPlayerSkeleton = Player2.GetComponent<SkeletonRagdoll2D>();
+                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("torso");
+                    winningPlayerParticles = Player2.GetComponentInChildren<ParticleSystem>();
+                    winningPlayerParticles.Play();
                 }
                 else if (playerThatLost == "Player2")
                 {
                     winText.text = "Player 1 Wins!";
+                    winningPlayerSkeleton = Player1.GetComponent<SkeletonRagdoll2D>();
+                    winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("torso");
+                    winningPlayerParticles = Player1.GetComponentInChildren<ParticleSystem>();
+                    winningPlayerParticles.Play();
                 }
                 elapsedTime = 0;
             }
@@ -77,11 +93,17 @@ public class GameScript : MonoBehaviour
                 elapsedTime = 0;
                 winText.gameObject.SetActive(!winText.gameObject.activeSelf);
             }
-        }
-        else if (currentGameState == CurrentGameState.NobodyWins)
-        {
-            volcanoParticles.Play();
-            winText.gameObject.SetActive(true);
+
+            if (!bothPlayersLost)
+            {
+                winningPlayerParticles.transform.position = winningPlayerRigidBody.transform.position;
+                winningPlayerRigidBody.velocity = new Vector2(0, floatingForce);
+                if (DEBUG)
+                {
+                    Debug.Log("Winning player is being lifted");
+                }
+
+            }
         }
     }
 
@@ -95,8 +117,7 @@ public class GameScript : MonoBehaviour
             }
 
             playerThatLost = "Player1";
-            
-                currentGameState = CurrentGameState.DelayBeforeWin;
+            currentGameState = CurrentGameState.DelayBeforeWin;
 
             player1Script.DisableControls = true;
             player2Script.DisableControls = true;
@@ -108,8 +129,7 @@ public class GameScript : MonoBehaviour
                 bothPlayersLost = true;
             }
             playerThatLost = "Player2";
-
-                currentGameState = CurrentGameState.DelayBeforeWin;
+            currentGameState = CurrentGameState.DelayBeforeWin;
 
             player1Script.DisableControls = true;
             player2Script.DisableControls = true;

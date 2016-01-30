@@ -35,12 +35,8 @@ public class SkeletonRagdoll2DInspector : Editor {
 		EditorGUILayout.PropertyField(gravityScale);
 		EditorGUILayout.PropertyField(disableIK);
 		EditorGUILayout.PropertyField(thickness);
-		EditorGUILayout.PropertyField(rotationLimit);
 		EditorGUILayout.PropertyField(rootMass);
 		EditorGUILayout.PropertyField(massFalloffFactor);
-		colliderLayer.intValue = EditorGUILayout.LayerField(colliderLayer.displayName, colliderLayer.intValue);
-		EditorGUILayout.PropertyField(mix);
-		
 
 		serializedObject.ApplyModifiedProperties();
 	}
