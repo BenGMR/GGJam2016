@@ -33,7 +33,7 @@ public class RaggedySpineboy : MonoBehaviour {
         }
         if (Input.GetButton("B" + ((int)player).ToString()))
         {
-            ragdoll.GetRigidbody("Right foot").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            ragdoll.GetRigidbody("right foot").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
         }
         if (Input.GetButton("X" + ((int)player).ToString()))
         {
