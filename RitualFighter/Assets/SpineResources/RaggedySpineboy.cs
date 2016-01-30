@@ -32,14 +32,14 @@ public class RaggedySpineboy : MonoBehaviour {
 
     public bool DisableControls = false;
 
-    public bool isFliped = false;
+    //public bool isFliped = false;
 
 	void Start () {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
-        skele = GetComponent<SkeletonAnimator>();
-        skele.Skeleton.FlipX = isFliped;
+        //skele = GetComponent<SkeletonAnimator>();
+        //skele.Skeleton.FlipX = isFliped;
         //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
         torso = ragdoll.GetRigidbody("torso");
         leftFoot = ragdoll.GetRigidbody("left foot");
@@ -51,8 +51,14 @@ public class RaggedySpineboy : MonoBehaviour {
 	void Update ()
     {
         powerDivisor = 1;
-        skele.Skeleton.FlipX = isFliped;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
+        //skele.Skeleton.FlipX = isFliped;
+        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
+
+        if (Input.GetButton("Start" + ((int)player).ToString()))
+        {
+            Debug.Log(string.Format("Start pressed on player {0}", player));
+            SceneManager.LoadScene(3);
+        }
 
         if (!DisableControls)
         {
@@ -74,11 +80,7 @@ public class RaggedySpineboy : MonoBehaviour {
             }
             powerDivisor = 1;
 
-            if (Input.GetButton("Start" + ((int)player).ToString()))
-            {
-                Debug.Log(string.Format("Start pressed on player {0}", player));
-                SceneManager.LoadScene(3);
-            }
+
 
             ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
 
@@ -92,7 +94,7 @@ public class RaggedySpineboy : MonoBehaviour {
             }
 
 
-            if (Input.GetButton("A" + ((int)player + 1).ToString()))
+            if (Input.GetButton("A" + ((int)player).ToString()))
             {
                 leftFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
@@ -100,7 +102,7 @@ public class RaggedySpineboy : MonoBehaviour {
             {
                 rightFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
-            if (Input.GetButton("X" + ((int)player + 1).ToString()))
+            if (Input.GetButton("X" + ((int)player).ToString()))
             {
                 leftHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
