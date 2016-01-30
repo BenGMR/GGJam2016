@@ -21,7 +21,6 @@ public class RaggedySpineboy : MonoBehaviour {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
-        ragdoll.GetRigidbody("right hand").velocity = new Vector2(-10, 100);
         
     }
 
@@ -30,7 +29,19 @@ public class RaggedySpineboy : MonoBehaviour {
         ragdoll.GetRigidbody("head").AddForce(new Vector2(0, 500 * Input.GetAxis("RightStickVertical" + ((int)player).ToString())));
         if(Input.GetButton("A" + ((int)player).ToString()))
         {
-            ragdoll.GetRigidbody("left foot").AddForce(50 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), 500 * Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+            ragdoll.GetRigidbody("left foot").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
         }
-	}
+        if (Input.GetButton("B" + ((int)player).ToString()))
+        {
+            ragdoll.GetRigidbody("Right foot").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+        }
+        if (Input.GetButton("X" + ((int)player).ToString()))
+        {
+            ragdoll.GetRigidbody("left hand").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+        }
+        if (Input.GetButton("Y" + ((int)player).ToString()))
+        {
+            ragdoll.GetRigidbody("right hand").AddForce(500 * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+        }
+    }
 }
