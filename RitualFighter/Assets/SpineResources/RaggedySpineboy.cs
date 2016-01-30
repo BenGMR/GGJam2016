@@ -16,97 +16,93 @@ public class RaggedySpineboy : MonoBehaviour {
     public float torsoForce = 100;
     public float maxYSpeedUp = 7;
 
-    int powerDivisor = 1;
-
     Rigidbody2D torso;
     Rigidbody2D leftFoot;
     Rigidbody2D rightFoot;
     Rigidbody2D leftHand;
     Rigidbody2D rightHand;
+    Rigidbody2D hip;
 
-	SkeletonRagdoll2D ragdoll;
-    SkeletonAnimator skele;
-
+    SkeletonRagdoll2D ragdoll;
+    
     public Player player = Player.One;
     public Player player2 = Player.One;
 
     public bool DisableControls = false;
 
-    public bool isFliped = false;
-
 	void Start () {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
-        skele = GetComponent<SkeletonAnimator>();
-        skele.Skeleton.FlipX = isFliped;
-        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
-        torso = ragdoll.GetRigidbody("torso");
-        leftFoot = ragdoll.GetRigidbody("left foot");
-        leftHand = ragdoll.GetRigidbody("left hand");
-        rightFoot = ragdoll.GetRigidbody("right foot");
-        rightHand = ragdoll.GetRigidbody("right hand");
+        torso = ragdoll.GetRigidbody("Torso");
+        leftFoot = ragdoll.GetRigidbody("LeftFoot");
+        leftHand = ragdoll.GetRigidbody("LeftHand");
+        rightFoot = ragdoll.GetRigidbody("RightFoot");
+        rightHand = ragdoll.GetRigidbody("RightHand");
+        hip = ragdoll.GetRigidbody("Hip");
+
+        ragdoll.joints["LeftUpperArm"].limits = new JointAngleLimits2D() { min = -90, max = 90 };
+        ragdoll.joints["RightUpperArm"].limits = new JointAngleLimits2D() { min = -90, max = 90 };
+        ragdoll.joints["LeftLowerArm"].limits = new JointAngleLimits2D() { min = -100, max = 100 };
+        ragdoll.joints["RightLowerArm"].limits = new JointAngleLimits2D() { min = -100, max = 100 };
+        ragdoll.joints["LeftHand"].limits = new JointAngleLimits2D() { min = -30, max = 30 };
+        ragdoll.joints["RightHand"].limits = new JointAngleLimits2D() { min = -30, max = 30 };
+
+
+        ragdoll.joints["LeftShin"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
+        ragdoll.joints["RightShin"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
+        ragdoll.joints["LeftFoot"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
+        ragdoll.joints["RightFoot"].limits = new JointAngleLimits2D() { min = -10, max = 10 };
+
     }
 
-	void Update ()
+    void Update ()
     {
-        powerDivisor = 1;
-        skele.Skeleton.FlipX = isFliped;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
-
         if (!DisableControls)
         {
-            if (Input.GetButton("A" + ((int)player).ToString()))
-            {
-                powerDivisor++;
-            }
-            if (Input.GetButton("X" + ((int)player).ToString()))
-            {
-                powerDivisor++;
-            }
-            if (Input.GetButton("B" + ((int)player).ToString()))
-            {
-                powerDivisor++;
-            }
-            if (Input.GetButton("Y" + ((int)player).ToString()))
-            {
-                powerDivisor++;
-            }
-            powerDivisor = 1;
-
             if (Input.GetButton("Start" + ((int)player).ToString()))
             {
                 Debug.Log(string.Format("Start pressed on player {0}", player));
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene("Settings");
             }
+            hip.AddForce(new Vector2(0, 500 * Input.GetAxis("RightStickVertical" + ((int)player).ToString())));
 
-            ragdoll.RootRigidbody.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
-
-            if (Input.GetButtonDown("RightBumper" + ((int)player).ToString()))
+            if (hip.velocity.y >= maxYSpeedUp)
             {
-                torso.AddForce(new Vector2(0, torsoForce), ForceMode2D.Impulse);
+                hip.velocity = new Vector2(hip.velocity.x, maxYSpeedUp);
             }
-            if (torso.velocity.y >= maxYSpeedUp)
+            torso.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));
+            
+
+            if (Input.GetButton("A" + ((int)player2).ToString()))
             {
-                torso.velocity = new Vector2(ragdoll.GetRigidbody("torso").velocity.x, maxYSpeedUp);
+                leftFoot.AddForce((footForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+
+                ragdoll.joints["LeftThigh"].limits = new JointAngleLimits2D() { min = -20, max = 100 };
+                //ragdoll.leftLegLimit = new JointAngleLimits2D() { min = -60, max = 20 };
             }
-
-
-            if (Input.GetButton("A" + ((int)player + 1).ToString()))
+            else
             {
-                leftFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                ragdoll.joints["LeftThigh"].limits = new JointAngleLimits2D() { min = 0, max = 0 };
             }
             if (Input.GetButton("B" + ((int)player).ToString()))
             {
-                rightFoot.AddForce((footForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                rightFoot.AddForce((footForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+
+                ragdoll.joints["RightThigh"].limits = new JointAngleLimits2D() { min = -100, max = 20 };
+                //ragdoll.leftLegLimit = new JointAngleLimits2D() { min = -20, max = 60 };
             }
-            if (Input.GetButton("X" + ((int)player + 1).ToString()))
+            else
             {
-                leftHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                ragdoll.joints["RightThigh"].limits = new JointAngleLimits2D() { min = 0, max = 0 };
+            }
+            if (Input.GetButton("X" + ((int)player2).ToString()))
+            {
+                leftHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
             if (Input.GetButton("Y" + ((int)player).ToString()))
             {
-                rightHand.AddForce((handForce / powerDivisor) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                rightHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
         }
     }
