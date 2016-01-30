@@ -11,8 +11,9 @@ using Spine;
 [RequireComponent(typeof(SkeletonRenderer))]
 public class SkeletonRagdoll2D : MonoBehaviour {
 	private static Transform helper;
+    public bool CurrentFlipX = false;
 
-	[Header("Hierarchy")]
+    [Header("Hierarchy")]
 	[SpineBone]
 	public string startingBoneName = "";
 	[SpineBone]
@@ -304,7 +305,7 @@ public class SkeletonRagdoll2D : MonoBehaviour {
 		if (skin == null)
 			skin = skeleton.Data.DefaultSkin;
 
-		bool flipX = b.WorldFlipX;
+        bool flipX = CurrentFlipX;//b.WorldFlipX;
 		bool flipY = b.WorldFlipY;
 
 		List<Attachment> attachments = new List<Attachment>();
@@ -346,7 +347,7 @@ public class SkeletonRagdoll2D : MonoBehaviour {
 			var b = pair.Key;
 			var t = pair.Value;
 			bool flip = false;
-			bool flipX = false;  //TODO:  deal with negative scale instead of Flip Key
+            bool flipX = CurrentFlipX;//false;  //TODO:  deal with negative scale instead of Flip Key
 			bool flipY = false;  //TODO:  deal with negative scale instead of Flip Key
 			Bone parentBone = null;
 			Transform parentTransform = transform;
@@ -354,17 +355,18 @@ public class SkeletonRagdoll2D : MonoBehaviour {
 			if (b != startingBone) {
 				parentBone = b.Parent;
 				parentTransform = boneTable[parentBone];
-				flipX = parentBone.WorldFlipX;
+				flipX = CurrentFlipX; //parentBone.WorldFlipX;
 				flipY = parentBone.WorldFlipY;
 
 			} else {
 				parentBone = b.Parent;
 				parentTransform = ragdollRoot;
+                b.worldFlipX = flipX;
 				if (b.Parent != null) {
-					flipX = b.worldFlipX;
+                    flipX = CurrentFlipX; //b.worldFlipX;
 					flipY = b.WorldFlipY;
 				} else {
-					flipX = b.Skeleton.FlipX;
+					flipX = CurrentFlipX; //b.Skeleton.FlipX;
 					flipY = b.Skeleton.FlipY;
 				}
 			}

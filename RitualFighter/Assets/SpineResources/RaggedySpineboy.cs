@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public enum Player
 {
-    None = 0,
     One = 1,
     Two = 2,
     Three = 3,
@@ -26,15 +25,19 @@ public class RaggedySpineboy : MonoBehaviour {
     Rigidbody2D rightHand;
 
 	SkeletonRagdoll2D ragdoll;
-    public Player player = Player.None;
-    public Player player2 = Player.None;
+    public Player player = Player.One;
+    public Player player2 = Player.One;
+
+    public bool DisableControls = false;
+
+    public bool isFliped = false;
 
 	void Start () {
 		
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
-        
-
+        ragdoll.CurrentFlipX = isFliped;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
         torso = ragdoll.GetRigidbody("torso");
         leftFoot = ragdoll.GetRigidbody("left foot");
         leftHand = ragdoll.GetRigidbody("left hand");
@@ -42,8 +45,11 @@ public class RaggedySpineboy : MonoBehaviour {
         rightHand = ragdoll.GetRigidbody("right hand");
     }
 
-	void Update () {
+	void Update ()
+    {
         powerDivisor = 1;
+        ragdoll.CurrentFlipX = isFliped;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, isFliped ? 180 : 0, transform.rotation.eulerAngles.z);
 
         if (Input.GetButton("A" + ((int)player).ToString()))
         {
@@ -74,7 +80,6 @@ public class RaggedySpineboy : MonoBehaviour {
         if(Input.GetButtonDown("RightBumper" + ((int)player).ToString()))
         {
             torso.AddForce(new Vector2(0, torsoForce), ForceMode2D.Impulse);
-
         }
         if (torso.velocity.y >= maxYSpeedUp)
         {
