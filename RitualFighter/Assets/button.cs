@@ -11,6 +11,7 @@ public class button : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        text.text = Input.GetButton("A1").ToString();
+        text.text = Input.GetButton("test1").ToString();
+        
 	}
 }
