@@ -11,8 +11,9 @@ using Spine;
 [RequireComponent(typeof(SkeletonRenderer))]
 public class SkeletonRagdoll2D : MonoBehaviour {
 	private static Transform helper;
+    public bool flipX = false;
 
-	[Header("Hierarchy")]
+    [Header("Hierarchy")]
 	[SpineBone]
 	public string startingBoneName = "";
 	[SpineBone]
@@ -346,7 +347,7 @@ public class SkeletonRagdoll2D : MonoBehaviour {
 			var b = pair.Key;
 			var t = pair.Value;
 			bool flip = false;
-			bool flipX = false;  //TODO:  deal with negative scale instead of Flip Key
+			flipX = false;  //TODO:  deal with negative scale instead of Flip Key
 			bool flipY = false;  //TODO:  deal with negative scale instead of Flip Key
 			Bone parentBone = null;
 			Transform parentTransform = transform;
