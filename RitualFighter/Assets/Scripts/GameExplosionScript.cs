@@ -7,7 +7,6 @@ public class GameExplosionScript : MonoBehaviour {
 
     SkeletonRagdoll2D skeletonToExplode;
 
-
     void Start () {
 	
 	}
@@ -23,6 +22,7 @@ public class GameExplosionScript : MonoBehaviour {
         //1) Disable top hitbox
         //2) Line up moon x-coordinate with character x-coordinate. Or look into smoothstepping (Vector2.MoveTowards)
         //3) When character gets close enough to the moon they explode
+        
 
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
@@ -35,7 +35,7 @@ public class GameExplosionScript : MonoBehaviour {
         {
             Destroy(skeletonToExplode.boneTable[b].GetComponent<Joint2D>());
             //generate random force
-            Vector2 randomForce = new Vector2(Random.Range(-400f, 400f), Random.Range(-400f, 400f));
+            Vector2 randomForce = new Vector2(Random.Range(-1000f, 1000f), Random.Range(-1000f, 1000f));
 
             //apply it bro
             skeletonToExplode.boneTable[b].GetComponent<Rigidbody2D>().AddForce(randomForce);
