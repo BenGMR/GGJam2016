@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TeamSelectionScript : MonoBehaviour
 {
+    public static TeamSelectionScript instance;
 
     public enum Team
     {
@@ -31,7 +32,19 @@ public class TeamSelectionScript : MonoBehaviour
         players[1] = p2;
         players[2] = p3;
         players[3] = p4;
-        DontDestroyOnLoad(this);
+    }
+
+    private void Awake()
+    {
+        // if the singleton hasn't been initialized yet
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+            return;//Avoid doing anything else
+        }
+
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame

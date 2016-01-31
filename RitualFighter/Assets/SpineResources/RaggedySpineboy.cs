@@ -17,7 +17,7 @@ public class RaggedySpineboy : MonoBehaviour {
     public float torsoForce = 100;
     public float maxYSpeedUp = 7;
     public int knockOutAmount = 1;
-
+    public static bool MenuUp = false;
 
     Rigidbody2D torso;
     Rigidbody2D leftFoot;
@@ -99,9 +99,28 @@ public class RaggedySpineboy : MonoBehaviour {
             DisableControls = true;
             StartCoroutine(staminaRegen());
         }
-
-        if (!DisableControls && !GameOver)
+        if(MenuUp && CanvasManager.scenes.Peek().name == "Game")
+        {
+            MenuUp = false;
+        }
+        if (!DisableControls && !GameOver && !MenuUp)
         { 
+            if(Input.GetButton("Start" + ((int)player).ToString()) || Input.GetButton("Start" + ((int)player2).ToString()))
+            {
+                MenuUp = true;
+                SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
+                Scene old;
+                if (CanvasManager.scenes.Count < 1)
+                {
+                    old = SceneManager.GetActiveScene();
+                    CanvasManager.scenes.Push(old);
+                }
+                old = CanvasManager.scenes.Peek();
+                CanvasManager.scenes.Push(SceneManager.GetSceneByName("Settings"));
+                //CanvasManager.Canvases[old].enabled = false;
+                CanvasManager.EventSystems[old].gameObject.SetActive(false);
+                CanvasManager.Canvases[old].gameObject.SetActive(false);
+            }
             if (leftGrounded && rightGrounded && Input.GetButton("LeftBumper" + ((int)player2).ToString()))
             {
                 torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
