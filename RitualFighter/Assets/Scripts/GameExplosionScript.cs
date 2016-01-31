@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameExplosionScript : MonoBehaviour
 {
-
+    public AudioClip explosionSound;
 
     SkeletonRagdoll2D skeletonToExplode;
+    
     bool exploded = false;
 
     void Start()
@@ -38,6 +39,12 @@ public class GameExplosionScript : MonoBehaviour
         //2) Line up moon x-coordinate with character x-coordinate. Or look into smoothstepping (Vector2.MoveTowards)
         //3) When character gets close enough to the moon they explode
         exploded = true;
+
+        if(SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySingle(explosionSound);
+        }
+
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
         StartCoroutine(Explode());
