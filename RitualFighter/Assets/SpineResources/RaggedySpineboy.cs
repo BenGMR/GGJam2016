@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum Player
 {
@@ -16,6 +17,7 @@ public class RaggedySpineboy : MonoBehaviour {
     public float torsoForce = 100;
     public float maxYSpeedUp = 7;
     public int knockOutAmount = 1;
+
 
     Rigidbody2D torso;
     Rigidbody2D leftFoot;

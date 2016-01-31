@@ -36,7 +36,7 @@ public class GameExplosionScript : MonoBehaviour
         //1) Disable top hitbox
         //2) Line up moon x-coordinate with character x-coordinate. Or look into smoothstepping (Vector2.MoveTowards)
         //3) When character gets close enough to the moon they explode
-	exploded = true;
+        exploded = true;
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
         StartCoroutine(Explode());
