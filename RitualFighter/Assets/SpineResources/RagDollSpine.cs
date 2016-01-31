@@ -18,6 +18,26 @@ public class RagDollSpine : MonoBehaviour {
     public float maxYSpeedUp = 7;
     public int knockOutAmount = 1;
     public static bool MenuUp = false;
+    public Sprite ATexture;
+    public Sprite BTexture;
+    public Sprite XTexture;
+    public Sprite YTexture;
+    public Sprite P1Texture;
+    public Sprite P2Texture;
+    public Sprite P3Texture;
+    public Sprite P4Texture;
+
+    GameObject a;
+    GameObject b;
+    GameObject x;
+    GameObject y;
+    GameObject p1;
+    GameObject p2;
+    GameObject p3;
+    GameObject p4;
+
+
+
 
     Rigidbody2D torso;
     Rigidbody2D leftFoot;
@@ -44,7 +64,32 @@ public class RagDollSpine : MonoBehaviour {
 
     public Color color = Color.white;
 
-	void Start () {
+	void Start ()
+    {
+        a = new GameObject();
+        SpriteRenderer Arender = a.AddComponent<SpriteRenderer>();
+        Arender.sprite = ATexture;
+        Arender.sortingOrder = 100;
+        a.transform.parent = transform;
+
+        b = new GameObject();
+        SpriteRenderer Brender = b.AddComponent<SpriteRenderer>();
+        Brender.sprite = BTexture;
+        Brender.sortingOrder = 100;
+        b.transform.parent = transform;
+
+        x = new GameObject();
+        SpriteRenderer Xrender = x.AddComponent<SpriteRenderer>();
+        Xrender.sprite = XTexture;
+        Xrender.sortingOrder = 100;
+        x.transform.parent = transform;
+
+        y = new GameObject();
+        SpriteRenderer Yrender = y.AddComponent<SpriteRenderer>();
+        Yrender.sprite = YTexture;
+        Yrender.sortingOrder = 100;
+        y.transform.parent = transform;
+
         staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
         ragdoll.Apply();
@@ -95,6 +140,13 @@ public class RagDollSpine : MonoBehaviour {
 
     void Update ()
     {
+        if(OptionsManager.instance.help)
+        {
+            a.transform.localPosition = leftFoot.gameObject.transform.localPosition;
+            b.transform.localPosition = rightFoot.gameObject.transform.localPosition;
+            x.transform.localPosition = leftHand.gameObject.transform.localPosition;
+            y.transform.localPosition = rightHand.gameObject.transform.localPosition;
+        }
         //ragdoll.skeleton.FindSlot("FighterClothes").SetColor(color);
         if(staminaBarScript.Health == 0 && !DisableControls)
         {

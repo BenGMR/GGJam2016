@@ -22,11 +22,15 @@ public class GameExplosionScript : MonoBehaviour
 
             if (Input.GetButton("B1") || Input.GetKeyDown(KeyCode.B))
             {
-                SceneManager.LoadScene("TeamSelect");
+                CanvasManager.scenes.Clear();
+                CanvasManager.scenes.Push(SceneManager.GetSceneByName("TeamSelector"));
+                SceneManager.LoadScene("TeamSelector", LoadSceneMode.Single);
             }
             else if (Input.GetButton("A1") || Input.GetKeyDown(KeyCode.A))
             {
-                SceneManager.LoadScene("Game");
+                CanvasManager.scenes.Clear();
+                CanvasManager.scenes.Push(SceneManager.GetSceneByName("Game"));
+                SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }
         }
     }

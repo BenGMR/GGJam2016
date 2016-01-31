@@ -116,12 +116,16 @@ public class TeamSelectionScript : MonoBehaviour
             {
                 if (Input.GetButton("Start" + i.ToString()))
                 {
-                    SceneManager.LoadScene("Game");
+                    CanvasManager.scenes.Clear();
+                    CanvasManager.scenes.Push(SceneManager.GetSceneByName("Game"));
+                    SceneManager.LoadScene("Game", LoadSceneMode.Single);
                 }
             }
             if (Input.GetButton("Select" + i.ToString()))
             {
-                SceneManager.LoadScene("Title");
+                CanvasManager.scenes.Clear();
+                CanvasManager.scenes.Push(SceneManager.GetSceneByName("Title"));
+                SceneManager.LoadScene("Title", LoadSceneMode.Single);
             }
         }
     }
