@@ -113,6 +113,14 @@ public class StaminaBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stamina == null)
+        {
+            stamina = player.StaminaBar.GetComponent<StaminaBarScript>();
+        }
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
         if (stamina.Health == 0)
         {
             joint.connectedBody = null;
