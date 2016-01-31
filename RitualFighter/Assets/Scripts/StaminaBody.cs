@@ -58,7 +58,7 @@ public class StaminaBody : MonoBehaviour
     {
         if (coll.gameObject.tag.Contains("Player"))
         {
-            if (joint.enabled = false && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) > .1f)
+            if (joint.enabled == false && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) > .1f)
             {
                 joint.enabled = true;
                 joint.connectedBody = coll.rigidbody;
@@ -111,28 +111,32 @@ public class StaminaBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stamina == null)
+        if (joint != null)
         {
-            stamina = player.StaminaBar.GetComponent<StaminaBarScript>();
+            if (stamina == null)
+            {
+                stamina = player.StaminaBar.GetComponent<StaminaBarScript>();
+            }
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody2D>();
+            }
+            if (stamina.Health == 0)
+            {
+                joint.connectedBody = null;
+                joint.enabled = false;
+            }
+            if (joint.enabled == true && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) <= .1f)
+            {
+                joint.connectedBody = null;
+                joint.enabled = false;
+            }
+            if (joint.enabled == true && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) <= .1f)
+            {
+                joint.connectedBody = null;
+                joint.enabled = false;
+            }
         }
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
-        if (stamina.Health == 0)
-        {
-            joint.connectedBody = null;
-            joint.enabled = false;
-        }
-        if (joint.enabled && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) <= .1f)
-        {
-            joint.connectedBody = null;
-            joint.enabled = false;
-        }
-        if (joint.enabled && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) <= .1f)
-        {
-            joint.connectedBody = null;
-            joint.enabled = false;
-        }
+
     }
 }
