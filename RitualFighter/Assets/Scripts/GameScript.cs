@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameScript : MonoBehaviour
 {
@@ -27,8 +28,8 @@ public class GameScript : MonoBehaviour
     public Text winText;
     public GameObject Player1;
     public GameObject Player2;
-    RaggedySpineboy player1Script;
-    RaggedySpineboy player2Script;
+    RagDollSpine player1Script;
+    RagDollSpine player2Script;
 
     Rigidbody2D winningPlayerRigidBody;
     SkeletonRagdoll2D winningPlayerSkeleton;
@@ -49,8 +50,8 @@ public class GameScript : MonoBehaviour
     void Start()
     {
         winText.gameObject.SetActive(false);
-        player1Script = Player1.GetComponent<RaggedySpineboy>();
-        player2Script = Player2.GetComponent<RaggedySpineboy>();
+        player1Script = Player1.GetComponent<RagDollSpine>();
+        player2Script = Player2.GetComponent<RagDollSpine>();
         winControlText.gameObject.SetActive(false);
     }
 
@@ -136,6 +137,17 @@ public class GameScript : MonoBehaviour
                 {
                     winningPlayerParticles.Stop();
                     floatingForce = 0;
+                }
+            }
+            else
+            {
+                if (Input.GetButton("B1") || Input.GetKeyDown(KeyCode.B))
+                {
+                    SceneManager.LoadScene("TeamSelect");
+                }
+                else if (Input.GetButton("A1") || Input.GetKeyDown(KeyCode.A))
+                {
+                    SceneManager.LoadScene("Game");
                 }
             }
         }
