@@ -19,11 +19,11 @@ public class GameExplosionScript : MonoBehaviour
     {
         if (exploded)
         {
-            if (Input.GetButton("B1"))
+            if (Input.GetButton("B1") || Input.GetKeyDown(KeyCode.B))
             {
                 SceneManager.LoadScene("TeamSelect");
             }
-            else if (Input.GetButton("A1"))
+            else if (Input.GetButton("A1") || Input.GetKeyDown(KeyCode.B))
             {
                 SceneManager.LoadScene("Game");
             }
