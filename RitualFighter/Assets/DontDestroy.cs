@@ -3,9 +3,14 @@ using System.Collections;
 
 public class DontDestroy : MonoBehaviour {
 
+    void Awake()
+    {
+
+        DontDestroyOnLoad(gameObject);
+    }
 	// Use this for initialization
 	void Start () {
-        DontDestroyOnLoad(gameObject);
+        
 	}
 	
 	// Update is called once per frame

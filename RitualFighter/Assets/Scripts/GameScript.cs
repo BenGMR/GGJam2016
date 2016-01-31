@@ -71,11 +71,16 @@ public class GameScript : MonoBehaviour
                 if (bothPlayersLost)
                 {
                     winText.text = "Nobody Wins...";
-                    if(SoundManager.instance != null)
-                    {
-                        SoundManager.instance.PlaySingle(booFX);
-                    }
 
+                    if (SoundManager.instance != null)
+                    {
+                        Debug.Log("Tried to play boo");
+                        if (!SoundManager.instance.sfxSource.isPlaying)
+                        {
+                            SoundManager.instance.PlaySingle(booFX);
+                        }
+
+                    }
                 }
                 else if (playerThatLost == "Player1")
                 {
