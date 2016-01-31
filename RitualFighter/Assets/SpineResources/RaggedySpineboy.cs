@@ -32,8 +32,13 @@ public class RaggedySpineboy : MonoBehaviour {
     public GameObject StaminaBar;
     StaminaBarScript staminaBarScript;
     public bool GameOver = false;
+    public bool touchingGround = false;
 
     bool DisableControls = false;
+    public bool leftGrounded = false;
+    public bool rightGrounded = false;
+
+    public Color color = Color.white;
 
 	void Start () {
         staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
@@ -75,7 +80,7 @@ public class RaggedySpineboy : MonoBehaviour {
     {
         while (staminaBarScript.Health < 100)
         {
-            yield return new WaitForSeconds(.1f * knockOutAmount);
+            yield return new WaitForSeconds(.01f * knockOutAmount);
             staminaBarScript.Health++;
         }
         staminaBarScript.Health = 100;
@@ -86,13 +91,22 @@ public class RaggedySpineboy : MonoBehaviour {
 
     void Update ()
     {
-        if(staminaBarScript.Health == 0)
+        ragdoll.skeleton.FindSlot("FighterClothes").SetColor(color);
+        if(staminaBarScript.Health == 0 && !DisableControls)
         {
             DisableControls = true;
             StartCoroutine(staminaRegen());
         }
         if (!DisableControls && !GameOver)
         {
+            if (leftGrounded && rightGrounded && Input.GetButton("LeftBumper" + ((int)player).ToString()))
+            {
+                torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
+            }
+            if (leftGrounded && rightGrounded && Input.GetButton("RightBumper" + ((int)player).ToString()))
+            {
+                torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
+            }
             if (Input.GetButton("Start" + ((int)player).ToString()))
             {
                 Debug.Log(string.Format("Start pressed on player {0}", player));
@@ -105,10 +119,16 @@ public class RaggedySpineboy : MonoBehaviour {
 
             if (Input.GetButton("A" + ((int)player2).ToString()))
             {
-                leftFoot.AddForce((footForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                leftFoot.AddForce((footForce) * (touchingGround ? 1 : .5f) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
 
-                ragdoll.joints["LeftThigh"].limits = new JointAngleLimits2D() { min = -20, max = 100 };
-                //ragdoll.leftLegLimit = new JointAngleLimits2D() { min = -60, max = 20 };
+                if (touchingGround)
+                {
+                    ragdoll.joints["LeftThigh"].limits = new JointAngleLimits2D() { min = -20, max = 100 };
+                }
+                else
+                {
+                    ragdoll.joints["LeftThigh"].limits = new JointAngleLimits2D() { min = -20, max = 20 };
+                }
             }
             else
             {
@@ -116,10 +136,16 @@ public class RaggedySpineboy : MonoBehaviour {
             }
             if (Input.GetButton("B" + ((int)player).ToString()))
             {
-                rightFoot.AddForce((footForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                rightFoot.AddForce((footForce) * (touchingGround ? 1 : .5f) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
 
-                ragdoll.joints["RightThigh"].limits = new JointAngleLimits2D() { min = -100, max = 20 };
-                //ragdoll.leftLegLimit = new JointAngleLimits2D() { min = -20, max = 60 };
+                if (touchingGround)
+                {
+                    ragdoll.joints["RightThigh"].limits = new JointAngleLimits2D() { min = -100, max = 20 };
+                }
+                else
+                {
+                    ragdoll.joints["RightThigh"].limits = new JointAngleLimits2D() { min = -20, max = 20 };
+                }
             }
             else
             {
