@@ -30,16 +30,15 @@ public class StaminaBody : MonoBehaviour
             if (coll.gameObject.layer == 31)
             {
                 float collisionForce = coll.rigidbody.velocity.magnitude;
-                rb.AddForce(coll.relativeVelocity / stamina.Health);
-                stamina.DecreaseBar(collisionForce / 5f);
+                rb.AddForce(coll.relativeVelocity / stamina.Health * (isHead ? 1.5f : 1));
+                stamina.DecreaseBar(collisionForce / 5f * (isHead ? 1.5f : 1));
             }
             else
             {
                 float collisionForce = rb.velocity.magnitude;
                 if (collisionForce > 10f)
                 {
-                    stamina.DecreaseBar(collisionForce / 5f);
-
+                    stamina.DecreaseBar(collisionForce / 5f * (isHead ? 1.5f : 1));
                 }
                 player.touchingGround = true;
                 if (isLeftFoot)
