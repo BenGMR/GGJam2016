@@ -26,13 +26,15 @@ public class SelectionArrowBehavior : MonoBehaviour
 
         if (noSelection)
         {
-            alpha -= alphaIncrement;
-            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+        //    alpha -= alphaIncrement;
 
-            if (alpha <= 0 || alpha >= 1f)
-            {
-                alphaIncrement *= -1;
-            }
+            //image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+            image.color = Color.red;    
+
+        //    if (alpha <= 0 || alpha >= 1f)
+        //    {
+        //        alphaIncrement *= -1;
+        //    }
         }
         else if (selected && image.color != Color.blue)
         {

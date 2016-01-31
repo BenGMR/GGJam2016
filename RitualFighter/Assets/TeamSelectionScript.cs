@@ -47,20 +47,12 @@ public class TeamSelectionScript : MonoBehaviour
                     {
                         leftTeam.Add(players[i]);
                     }
-                    else
-                    {
-                        players[i].ResetTeam();
-                    }
                 }
                 if (players[i].team == Team.right && !rightTeam.Contains(players[i]))
                 {
                     if (leftTeam.Count < 2)
                     {
                         rightTeam.Add(players[i]);
-                    }
-                    else
-                    {
-                        players[i].ResetTeam();
                     }
                 }
             }
