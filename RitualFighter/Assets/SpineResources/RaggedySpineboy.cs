@@ -102,7 +102,7 @@ public class RaggedySpineboy : MonoBehaviour {
 
         if (!DisableControls && !GameOver)
         { 
-            if (leftGrounded && rightGrounded && Input.GetButton("LeftBumper" + ((int)player).ToString()))
+            if (leftGrounded && rightGrounded && Input.GetButton("LeftBumper" + ((int)player2).ToString()))
             {
                 torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
             }
@@ -118,7 +118,7 @@ public class RaggedySpineboy : MonoBehaviour {
 
             if (Input.GetButton("A" + ((int)player2).ToString()))
             {
-                leftFoot.AddForce((footForce) * (touchingGround ? 1 : .5f) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                leftFoot.AddForce((footForce) * (touchingGround ? 1 : .5f) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player2).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player2).ToString())));
 
                 if (touchingGround)
                 {
@@ -152,7 +152,7 @@ public class RaggedySpineboy : MonoBehaviour {
             }
             if (Input.GetButton("X" + ((int)player2).ToString()))
             {
-                leftHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                leftHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player2).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player2).ToString())));
             }
             if (Input.GetButton("Y" + ((int)player).ToString()))
             {
