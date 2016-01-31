@@ -8,8 +8,9 @@ public class SaveOptions : MonoBehaviour {
     public Toggle help;
     public void Save()
     {
-        OptionsManager.instance.musicVolume = music.value;
-        OptionsManager.instance.soundVolume = sound.value;
+        Debug.Log(music.value.ToString());
+        SoundManager.instance.musicSource.volume = music.value;
+        SoundManager.instance.sfxSource.volume = sound.value;
         OptionsManager.instance.help = help.isOn;
     }
 }
