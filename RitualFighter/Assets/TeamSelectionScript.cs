@@ -4,21 +4,17 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+public enum Team
+{
+    left,
+    right,
+    none
+}
+
 public class TeamSelectionScript : MonoBehaviour
 {
-    public static TeamSelectionScript instance;
-
-    public enum Team
-    {
-        left,
-        right,
-        none
-    }
-
     public Controller p1, p2, p3, p4;
     public Controller[] players = new Controller[4];
-    public List<Controller> leftTeam = new List<Controller>();
-    public List<Controller> rightTeam = new List<Controller>();
     public bool Startable = false;
     public Button playButton;
     public Image WarningMessage;
@@ -36,19 +32,15 @@ public class TeamSelectionScript : MonoBehaviour
         showMessage = false;
         messageAlpha = 0f;
         Startable = false;
+        TeamInfo.Teams.Clear();
+        
+        TeamInfo.Teams.Add(Team.left, new List<Player>());
+        TeamInfo.Teams.Add(Team.right,new List<Player>());
     }
 
     private void Awake()
     {
         // if the singleton hasn't been initialized yet
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-            return;//Avoid doing anything else
-        }
-
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
@@ -58,39 +50,40 @@ public class TeamSelectionScript : MonoBehaviour
         {
             if (players[i].Ready)
             {
-                if (players[i].team == Team.left && !leftTeam.Contains(players[i]))
+                if (players[i].team == Team.left && !TeamInfo.Teams[Team.left].Contains((Player)(i+1)))
                 {
-                    if (leftTeam.Count < 2)
+                    if (TeamInfo.Teams[Team.left].Count < 2)
                     {
-                        leftTeam.Add(players[i]);
+                        TeamInfo.Teams[Team.left].Add((Player) (i+1));
                     }
                 }
-                if (players[i].team == Team.right && !rightTeam.Contains(players[i]))
+                if (players[i].team == Team.right && !TeamInfo.Teams[Team.right].Contains((Player)(i + 1)))
                 {
-                    if (leftTeam.Count < 2)
+                    if (TeamInfo.Teams[Team.right].Count < 2)
                     {
-                        rightTeam.Add(players[i]);
+                        TeamInfo.Teams[Team.right].Add((Player)(i + 1));
                     }
                 }
             }
             else
             {
-                if (leftTeam.Contains(players[i]))
+                if (TeamInfo.Teams[Team.left].Contains((Player)(i+1)))
                 {
-                    leftTeam.Remove(players[i]);
+                    TeamInfo.Teams[Team.left].Remove((Player)(i + 1));
                 }
-                else if (rightTeam.Contains(players[i]))
+                else if (TeamInfo.Teams[Team.right].Contains((Player)(i + 1)))
                 {
-                    rightTeam.Remove(players[i]);
+                    TeamInfo.Teams[Team.left].Remove((Player)(i + 1));
                 }
             }
         }
-        if (leftTeam.Count >= 1 && rightTeam.Count >= 1 && leftTeam.Count < 3 && rightTeam.Count < 3)
+        if (TeamInfo.Teams[Team.left].Count >= 1 && TeamInfo.Teams[Team.right].Count >= 1 && TeamInfo.Teams[Team.left].Count < 3 && TeamInfo.Teams[Team.right].Count < 3)
         {
             Startable = true;
+
             playButton.enabled = true;
         }
-        else if (leftTeam.Count >= 3 || rightTeam.Count >= 3)
+        else if (TeamInfo.Teams[Team.left].Count >= 3 || TeamInfo.Teams[Team.right].Count >= 3)
         {
             showMessage = true;
         }
@@ -129,7 +122,6 @@ public class TeamSelectionScript : MonoBehaviour
             if (Input.GetButton("Select" + i.ToString()))
             {
                 SceneManager.LoadScene("Title");
-                Destroy(this);
             }
         }
     }
