@@ -53,6 +53,8 @@ public class GameScript : MonoBehaviour
         player1Script = Player1.GetComponent<RagDollSpine>();
         player2Script = Player2.GetComponent<RagDollSpine>();
         winControlText.gameObject.SetActive(false);
+
+        SoundManager.instance.PlaySong("Fight");
     }
 
     void Update()
@@ -78,7 +80,7 @@ public class GameScript : MonoBehaviour
                         Debug.Log("Tried to play boo");
                         if (!SoundManager.instance.sfxSource.isPlaying)
                         {
-                            SoundManager.instance.PlaySingle(booFX);
+                            SoundManager.instance.PlaySound("Boo");
                         }
 
                     }
