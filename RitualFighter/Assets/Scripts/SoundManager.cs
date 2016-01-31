@@ -5,6 +5,7 @@ public class SoundManager : MonoBehaviour {
 
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource sfxSource2;
     public static SoundManager instance = null;
     public AudioClip mainMenu;
     public AudioClip fight;
@@ -35,23 +36,46 @@ public class SoundManager : MonoBehaviour {
 
     public void PlaySound(string soundName)
     {
-        if (soundName == "Lightning")
+        if (!sfxSource.isPlaying)
         {
-            sfxSource.clip = lightning;
-        }
-        else if (soundName == "Boo")
-        {
-            sfxSource.clip = boo;
-        }
-        else if (soundName == "Punch")
-        {
-            sfxSource.clip = punch;
+            if (soundName == "Lightning")
+            {
+                sfxSource.clip = lightning;
+            }
+            else if (soundName == "Boo")
+            {
+                sfxSource.clip = boo;
+            }
+            else if (soundName == "Punch")
+            {
+                sfxSource.clip = punch;
+            }
+            else
+            {
+                return;
+            }
+            sfxSource.Play();
         }
         else
         {
-            return;
+            if (soundName == "Lightning")
+            {
+                sfxSource2.clip = lightning;
+            }
+            else if (soundName == "Boo")
+            {
+                sfxSource2.clip = boo;
+            }
+            else if (soundName == "Punch")
+            {
+                sfxSource2.clip = punch;
+            }
+            else
+            {
+                return;
+            }
+            sfxSource2.Play();
         }
-        sfxSource.Play();
     }
 
     public void PlaySong(string songName)
