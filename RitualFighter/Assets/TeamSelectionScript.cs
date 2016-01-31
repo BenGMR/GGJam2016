@@ -22,8 +22,8 @@ public class TeamSelectionScript : MonoBehaviour
     public bool Startable = false;
     public Button playButton;
     public Image WarningMessage;
-    bool showMessage = false;
-    float messageAlpha = 0f;
+    bool showMessage;
+    float messageAlpha;
 
     // Use this for initialization
     void Start()
@@ -32,6 +32,10 @@ public class TeamSelectionScript : MonoBehaviour
         players[1] = p2;
         players[2] = p3;
         players[3] = p4;
+
+        showMessage = false;
+        messageAlpha = 0f;
+        Startable = false;
     }
 
     private void Awake()
@@ -125,6 +129,7 @@ public class TeamSelectionScript : MonoBehaviour
             if (Input.GetButton("Select" + i.ToString()))
             {
                 SceneManager.LoadScene("Title");
+                Destroy(this);
             }
         }
     }
