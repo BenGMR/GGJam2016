@@ -121,6 +121,7 @@ public class GameScript : MonoBehaviour
                 else if(Camera.main.transform.position.y > ExplosionCollider.transform.position.y)
                 {
                     winningPlayerParticles.Stop();
+                    floatingForce = 0;
                 }
             }
         }
