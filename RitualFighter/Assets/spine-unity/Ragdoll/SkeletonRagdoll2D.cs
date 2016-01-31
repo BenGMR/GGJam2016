@@ -70,7 +70,7 @@ public class SkeletonRagdoll2D : MonoBehaviour
 
     private Rigidbody2D rootRigidbody;
     private ISkeletonAnimation skeletonAnim;
-    private Skeleton skeleton;
+    public Skeleton skeleton;
     public Dictionary<Bone, Transform> boneTable = new Dictionary<Bone, Transform>();
     private Bone startingBone;
     private Transform ragdollRoot;

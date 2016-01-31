@@ -38,6 +38,8 @@ public class RaggedySpineboy : MonoBehaviour {
     public bool leftGrounded = false;
     public bool rightGrounded = false;
 
+    public Color color = Color.white;
+
 	void Start () {
         staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
 		ragdoll = GetComponent<SkeletonRagdoll2D>();
@@ -89,6 +91,7 @@ public class RaggedySpineboy : MonoBehaviour {
 
     void Update ()
     {
+        ragdoll.skeleton.FindSlot("FighterClothes").SetColor(color);
         if(staminaBarScript.Health == 0 && !DisableControls)
         {
             DisableControls = true;

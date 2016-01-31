@@ -22,15 +22,15 @@ public class GameExplosionScript : MonoBehaviour {
         //1) Disable top hitbox
         //2) Line up moon x-coordinate with character x-coordinate. Or look into smoothstepping (Vector2.MoveTowards)
         //3) When character gets close enough to the moon they explode
-        
 
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
-        Explode();
+        StartCoroutine(Explode());
     }
 
-    void Explode()
+    IEnumerator Explode()
     {
+        yield return new WaitForSeconds(1);
         foreach (Bone b in skeletonToExplode.boneTable.Keys)
         {
             Destroy(skeletonToExplode.boneTable[b].GetComponent<Joint2D>());
