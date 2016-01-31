@@ -15,8 +15,22 @@ public class StaminaBarScript : MonoBehaviour {
 	
 	// Update is called once per frame
     void Update () {
+        if (Health < 0)
+        {
+            Regening = true;
+            Health = 0;
+        }
 
-	}
+        FillImage.rectTransform.localScale = new Vector3(Health / 100f, FillImage.rectTransform.localScale.y);
+        if (FillImage.rectTransform.localScale.x == 0)
+        {
+            FillImage.enabled = false;
+        }
+        else
+        {
+            FillImage.enabled = true;
+        }
+    }
 
     public bool DecreaseBar(float decreaseAmount)
     {
@@ -31,11 +45,11 @@ public class StaminaBarScript : MonoBehaviour {
         FillImage.rectTransform.localScale = new Vector3(Health / 100f, FillImage.rectTransform.localScale.y);
         if (FillImage.rectTransform.localScale.x == 0)
         {
-            this.enabled = false;
+            FillImage.enabled = false;
         }
         else
         {
-            this.enabled = true;
+            FillImage.enabled = true;
         }
         //Returns true if your health has been completed depleted
         if (Health == 0)

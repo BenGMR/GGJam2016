@@ -4,41 +4,51 @@ using System.Collections;
 public class StaminaBody : MonoBehaviour
 {
 
-    public GameObject StaminaBar;
-    StaminaBarScript staminaBarScript;
-    Rigidbody2D rb;
-    public Player player;
+    public RaggedySpineboy player;
     public bool isLeftHand = false;
     public bool isRightHand = false;
-    HingeJoint2D joint = null;
+    public bool isHead = false;
+    public bool isLeftFoot = false;
+    public bool isRightFoot = false;
+    HingeJoint2D joint;
+    StaminaBarScript stamina;
+    Rigidbody2D rb;
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        if (stamina == null)
+        {
+            stamina = player.StaminaBar.GetComponent<StaminaBarScript>();
+        }
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
-
         }
-        if (staminaBarScript == null)
-        {
-            staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
-        }
-        if (staminaBarScript.Health > 0 && !staminaBarScript.Regening)
+        if (stamina.Health > 0 && !stamina.Regening)
         {
 
             if (coll.gameObject.layer == 31)
             {
                 float collisionForce = coll.rigidbody.velocity.magnitude;
-                rb.AddForce(coll.relativeVelocity / staminaBarScript.Health);
-                StaminaBar.GetComponent<StaminaBarScript>().DecreaseBar(collisionForce / 5f);
+                rb.AddForce(coll.relativeVelocity / stamina.Health);
+                stamina.DecreaseBar(collisionForce / 5f);
             }
             else
             {
                 float collisionForce = rb.velocity.magnitude;
                 if (collisionForce > 10f)
                 {
-                    StaminaBar.GetComponent<StaminaBarScript>().DecreaseBar(collisionForce / 5f);
+                    stamina.DecreaseBar(collisionForce / 5f);
 
+                }
+                player.touchingGround = true;
+                if (isLeftFoot)
+                {
+                    player.leftGrounded = true;
+                }
+                else if (isRightFoot)
+                {
+                    player.rightGrounded = true;
                 }
             }
         }
@@ -46,38 +56,83 @@ public class StaminaBody : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D coll)
     {
-        if (coll.gameObject.tag != "Player" + (int)player)
+        if (coll.gameObject.tag.Contains("Player"))
         {
-            if (joint == null && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player).ToString()) > .1f)
+            if (joint.enabled = false && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) > .1f)
             {
-                joint = this.gameObject.AddComponent<HingeJoint2D>();
+                joint.enabled = true;
                 joint.connectedBody = coll.rigidbody;
             }
-            if (joint == null && isRightHand && Input.GetAxis("RightTrigger" + ((int)player).ToString()) > .1f)
+            if (joint.enabled == false && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) > .1f)
             {
-                joint = this.gameObject.AddComponent<HingeJoint2D>();
+                joint.enabled = true;
                 joint.connectedBody = coll.rigidbody;
+            }
+        }
+        else
+        {
+            player.touchingGround = true;
+            if (isLeftFoot)
+            {
+                player.leftGrounded = true;
+            }
+            else if (isRightFoot)
+            {
+                player.rightGrounded = true;
             }
         }
     }
 
-    // Use this for initializationst
+    // Use this for initialization
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        if (!coll.gameObject.tag.Contains("Player"))
+        {
+            player.touchingGround = false;
+            if (isLeftFoot)
+            {
+                player.leftGrounded = false;
+            }
+            else if (isRightFoot)
+            {
+                player.rightGrounded = false;
+            }
+        }
+    }
+
+    // Use this for initialization
     void Start()
     {
+        joint = gameObject.AddComponent<HingeJoint2D>();
+        joint.autoConfigureConnectedAnchor = true;
+        joint.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (joint != null && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player).ToString()) <= .1f)
+        if (stamina == null)
         {
-            Destroy(joint);
-            joint = null;
+            stamina = player.StaminaBar.GetComponent<StaminaBarScript>();
         }
-        if (joint != null && isRightHand && Input.GetAxis("RightTrigger" + ((int)player).ToString()) <= .1f)
+        if (rb == null)
         {
-            Destroy(joint);
-            joint = null;
+            rb = GetComponent<Rigidbody2D>();
+        }
+        if (stamina.Health == 0)
+        {
+            joint.connectedBody = null;
+            joint.enabled = false;
+        }
+        if (joint.enabled && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) <= .1f)
+        {
+            joint.connectedBody = null;
+            joint.enabled = false;
+        }
+        if (joint.enabled && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) <= .1f)
+        {
+            joint.connectedBody = null;
+            joint.enabled = false;
         }
     }
 }
