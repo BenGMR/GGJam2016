@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour {
     public AudioClip boo;
     public AudioClip lightning;
     public AudioClip punch;
-
+    public AudioClip click;
 
     void Awake()
     {
@@ -49,6 +49,10 @@ public class SoundManager : MonoBehaviour {
             else if (soundName == "Punch")
             {
                 sfxSource.clip = punch;
+            }
+            else if (soundName == "Click")
+            {
+                sfxSource.clip = click;
             }
             else
             {
