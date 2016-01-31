@@ -24,7 +24,7 @@ public class GameExplosionScript : MonoBehaviour
             {
                 SceneManager.LoadScene("TeamSelect");
             }
-            else if (Input.GetButton("A1") || Input.GetKeyDown(KeyCode.B))
+            else if (Input.GetButton("A1") || Input.GetKeyDown(KeyCode.A))
             {
                 SceneManager.LoadScene("Game");
             }

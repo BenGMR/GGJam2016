@@ -11,7 +11,7 @@ public enum Player
     Four = 4
 }
 
-public class RaggedySpineboy : MonoBehaviour {
+public class RagDollSpine : MonoBehaviour {
     public float footForce = 200;
     public float handForce = 200;
     public float torsoForce = 100;
@@ -39,6 +39,8 @@ public class RaggedySpineboy : MonoBehaviour {
     bool DisableControls = false;
     public bool leftGrounded = false;
     public bool rightGrounded = false;
+    public bool leftGrabbing = false;
+    public bool rightGrabbing = false;
 
     public Color color = Color.white;
 
@@ -93,7 +95,7 @@ public class RaggedySpineboy : MonoBehaviour {
 
     void Update ()
     {
-        ragdoll.skeleton.FindSlot("FighterClothes").SetColor(color);
+        //ragdoll.skeleton.FindSlot("FighterClothes").SetColor(color);
         if(staminaBarScript.Health == 0 && !DisableControls)
         {
             DisableControls = true;
@@ -104,8 +106,17 @@ public class RaggedySpineboy : MonoBehaviour {
             MenuUp = false;
         }
         if (!DisableControls && !GameOver && !MenuUp)
-        { 
-            if(Input.GetButton("Start" + ((int)player).ToString()) || Input.GetButton("Start" + ((int)player2).ToString()))
+        {
+            if (leftGrabbing)
+            {
+                staminaBarScript.Health -= .15f;
+            }
+            if (rightGrabbing)
+            {
+                staminaBarScript.Health -= .15f;
+            }
+            staminaBarScript.Health = Mathf.Clamp(staminaBarScript.Health + .1f, 0, 100);
+            if (Input.GetButton("Start" + ((int)player).ToString()) || Input.GetButton("Start" + ((int)player2).ToString()))
             {
                 MenuUp = true;
                 SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
@@ -171,11 +182,11 @@ public class RaggedySpineboy : MonoBehaviour {
             }
             if (Input.GetButton("X" + ((int)player2).ToString()))
             {
-                leftHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player2).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player2).ToString())));
+                leftHand.AddForce((handForce * (leftGrabbing ? 2 : 1)) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player2).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player2).ToString())));
             }
             if (Input.GetButton("Y" + ((int)player).ToString()))
             {
-                rightHand.AddForce((handForce) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
+                rightHand.AddForce((handForce * (rightGrabbing ? 2 : 1)) * new Vector2(Input.GetAxis("LeftStickHorizontal" + ((int)player).ToString()), Input.GetAxis("LeftStickVertical" + ((int)player).ToString())));
             }
         }
     }

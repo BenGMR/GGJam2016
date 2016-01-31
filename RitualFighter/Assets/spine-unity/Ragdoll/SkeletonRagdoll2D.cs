@@ -216,7 +216,7 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 {
                     script.isLeftFoot = true;
                 }
-                script.player = gameObject.GetComponent<RaggedySpineboy>();
+                script.player = gameObject.GetComponent<RagDollSpine>();
                 joint.gameObject.tag = "Player" + (int)script.player.player;
             }
         }

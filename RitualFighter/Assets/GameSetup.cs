@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class GameSetup : MonoBehaviour {
 
-    public RaggedySpineboy leftPlayer;
-    public RaggedySpineboy rightPlayer;
+    public RagDollSpine leftPlayer;
+    public RagDollSpine rightPlayer;
 
 	void Start ()
     {

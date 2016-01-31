@@ -4,7 +4,7 @@ using System.Collections;
 public class StaminaBody : MonoBehaviour
 {
 
-    public RaggedySpineboy player;
+    public RagDollSpine player;
     public bool isLeftHand = false;
     public bool isRightHand = false;
     public bool isHead = false;
@@ -61,11 +61,13 @@ public class StaminaBody : MonoBehaviour
             {
                 joint.enabled = true;
                 joint.connectedBody = coll.rigidbody;
+                player.leftGrabbing = true;
             }
             if (joint.enabled == false && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) > .1f)
             {
                 joint.enabled = true;
                 joint.connectedBody = coll.rigidbody;
+                player.rightGrabbing = true;
             }
         }
         else
@@ -110,6 +112,8 @@ public class StaminaBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Input.GetAxis("RightTrigger" + ((int)player.player).ToString()).ToString());
+        
         if (joint != null)
         {
             if (stamina == null)
@@ -124,16 +128,20 @@ public class StaminaBody : MonoBehaviour
             {
                 joint.connectedBody = null;
                 joint.enabled = false;
+                player.rightGrabbing = false;
+                player.leftGrabbing = false;
             }
             if (joint.enabled == true && isLeftHand && Input.GetAxis("LeftTrigger" + ((int)player.player2).ToString()) <= .1f)
             {
                 joint.connectedBody = null;
                 joint.enabled = false;
+                player.leftGrabbing = false;
             }
             if (joint.enabled == true && isRightHand && Input.GetAxis("RightTrigger" + ((int)player.player).ToString()) <= .1f)
             {
                 joint.connectedBody = null;
                 joint.enabled = false;
+                player.rightGrabbing = false;
             }
         }
 
