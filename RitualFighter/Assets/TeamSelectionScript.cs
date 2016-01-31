@@ -31,6 +31,7 @@ public class TeamSelectionScript : MonoBehaviour
         players[1] = p2;
         players[2] = p3;
         players[3] = p4;
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
