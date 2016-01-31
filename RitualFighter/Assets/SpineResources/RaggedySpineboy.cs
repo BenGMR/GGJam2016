@@ -31,8 +31,9 @@ public class RaggedySpineboy : MonoBehaviour {
 
     public GameObject StaminaBar;
     StaminaBarScript staminaBarScript;
+    public bool GameOver = false;
 
-    public bool DisableControls = false;
+    bool DisableControls = false;
 
 	void Start () {
         staminaBarScript = StaminaBar.GetComponent<StaminaBarScript>();
@@ -90,7 +91,7 @@ public class RaggedySpineboy : MonoBehaviour {
             DisableControls = true;
             StartCoroutine(staminaRegen());
         }
-        if (!DisableControls)
+        if (!DisableControls && !GameOver)
         {
             if (Input.GetButton("Start" + ((int)player).ToString()))
             {
