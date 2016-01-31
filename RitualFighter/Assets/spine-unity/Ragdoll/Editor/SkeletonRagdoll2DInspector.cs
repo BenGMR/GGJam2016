@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 [CustomEditor(typeof(SkeletonRagdoll2D))]
 public class SkeletonRagdoll2DInspector : Editor {
-	SerializedProperty player, staminaBar, startingBoneName, stopBoneNames, applyOnStart, pinStartBone, enableJointCollision, gravityScale, disableIK, thickness, rotationLimit, colliderLayer, mix, rootMass, massFalloffFactor;
+	SerializedProperty staminaBar, startingBoneName, stopBoneNames, applyOnStart, pinStartBone, enableJointCollision, gravityScale, disableIK, thickness, rotationLimit, colliderLayer, mix, rootMass, massFalloffFactor;
 
 	void OnEnable () {
 		startingBoneName = serializedObject.FindProperty("startingBoneName");
@@ -26,7 +26,6 @@ public class SkeletonRagdoll2DInspector : Editor {
 		rootMass = serializedObject.FindProperty("rootMass");
 		massFalloffFactor = serializedObject.FindProperty("massFalloffFactor");
         staminaBar = serializedObject.FindProperty("StaminaBar");
-        player = serializedObject.FindProperty("player");
     }
 
 	public override void OnInspectorGUI () {
@@ -40,7 +39,6 @@ public class SkeletonRagdoll2DInspector : Editor {
 		EditorGUILayout.PropertyField(rootMass);
 		EditorGUILayout.PropertyField(massFalloffFactor);
         EditorGUILayout.PropertyField(staminaBar);
-        EditorGUILayout.PropertyField(player);
 
 		serializedObject.ApplyModifiedProperties();
 	}
