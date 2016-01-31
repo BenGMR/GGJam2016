@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class GameScript : MonoBehaviour
 {
+    public GameObject TopHitBox;
+    public GameObject Moon;
 
     public enum CurrentGameState
     {
@@ -33,6 +35,7 @@ public class GameScript : MonoBehaviour
     float elapsedTime = 0;
     float timeUntilPersonLoses = 1;
     float timePerFlash = 0.5f;
+    float elapsedMoveToMoonTime = 0;
 
     public float floatingForce = .1f;
 
@@ -87,6 +90,7 @@ public class GameScript : MonoBehaviour
         }
         else if (currentGameState == CurrentGameState.SomeoneWins)
         {
+            elapsedMoveToMoonTime += Time.deltaTime;
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timePerFlash)
             {
@@ -97,7 +101,8 @@ public class GameScript : MonoBehaviour
             if (!bothPlayersLost)
             {
                 winningPlayerParticles.transform.position = winningPlayerRigidBody.transform.position;
-                winningPlayerRigidBody.velocity = new Vector2(0, floatingForce);
+                winningPlayerRigidBody.transform.position = Vector2.MoveTowards(new Vector2(winningPlayerRigidBody.transform.position.x,winningPlayerRigidBody.transform.position.y), Moon.transform.position, elapsedMoveToMoonTime/6);
+                winningPlayerRigidBody.velocity = Vector2.zero;
                 if (DEBUG)
                 {
                     Debug.Log("Winning player is being lifted");
