@@ -8,6 +8,7 @@ public class GameScript : MonoBehaviour
     public GameObject ExplosionCollider;
     public GameObject Moon;
 
+    public Text winControlText;
     public enum CurrentGameState
     {
         Playing,
@@ -48,7 +49,7 @@ public class GameScript : MonoBehaviour
         winText.gameObject.SetActive(false);
         player1Script = Player1.GetComponent<RaggedySpineboy>();
         player2Script = Player2.GetComponent<RaggedySpineboy>();
-
+        winControlText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -93,6 +94,7 @@ public class GameScript : MonoBehaviour
                     TopHitBox.gameObject.SetActive(false);
                     Destroy(GetComponent<BoxCollider2D>());
                 }
+                winControlText.gameObject.SetActive(true);
                 elapsedTime = 0;
             }
         }
