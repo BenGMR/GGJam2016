@@ -33,6 +33,9 @@ public class SkeletonRagdoll2D : MonoBehaviour
     [Range(0.01f, 1f)]
     public float massFalloffFactor = 0.4f;
 
+    [Tooltip("HI")]
+    public GameObject StaminaBar;
+
     public Rigidbody2D RootRigidbody
     {
         get
@@ -195,6 +198,8 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 joint.limits = limits;
                 joint.useLimits = true;
                 joints.Add(b.data.name, joint);
+                StaminaBody script = joint.gameObject.AddComponent<StaminaBody>();
+                script.StaminaBar = StaminaBar;
             }
         }
 

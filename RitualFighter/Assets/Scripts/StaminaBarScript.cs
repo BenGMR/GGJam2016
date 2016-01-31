@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class StaminaBarScript : MonoBehaviour {
 
     public Image FillImage;
+    public float Health = 100;
+    public bool Regening = false;
 
 	// Use this for initialization
 	void Start () {
@@ -16,20 +18,27 @@ public class StaminaBarScript : MonoBehaviour {
 
 	}
 
-    public bool DecreaseBar(int decreaseAmount)
+    public bool DecreaseBar(float decreaseAmount)
     {
-        float percentModifier = (float)decreaseAmount / 100f;
-        float newXValue = FillImage.rectTransform.localScale.x - percentModifier;
+        Health -= decreaseAmount;
 
-        if (newXValue < 0)
+        if (Health < 0)
         {
-            newXValue = 0;
+            Regening = true;
+            Health = 0;
         }
 
-        FillImage.rectTransform.localScale = new Vector3(newXValue, FillImage.rectTransform.localScale.y);
-        
+        FillImage.rectTransform.localScale = new Vector3(Health / 100f, FillImage.rectTransform.localScale.y);
+        if (FillImage.rectTransform.localScale.x == 0)
+        {
+            this.enabled = false;
+        }
+        else
+        {
+            this.enabled = true;
+        }
         //Returns true if your health has been completed depleted
-        if (newXValue == 0)
+        if (Health == 0)
         {
             return true;
         }
