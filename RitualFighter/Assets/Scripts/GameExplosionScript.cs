@@ -3,17 +3,20 @@ using System.Collections;
 using Spine;
 using UnityEngine.SceneManagement;
 
-public class GameExplosionScript : MonoBehaviour {
+public class GameExplosionScript : MonoBehaviour
+{
 
 
     SkeletonRagdoll2D skeletonToExplode;
     bool exploded = false;
 
-    void Start () {
-	
-	}
-	
-	void Update () {
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
         if (exploded)
         {
             if (Input.GetButton("B1"))
@@ -25,8 +28,7 @@ public class GameExplosionScript : MonoBehaviour {
                 SceneManager.LoadScene("Game");
             }
         }
-	}
-
+    }
     void OnTriggerEnter2D(Collider2D collider)
     {
         //I want the character to float to line up with the moon
@@ -34,7 +36,7 @@ public class GameExplosionScript : MonoBehaviour {
         //1) Disable top hitbox
         //2) Line up moon x-coordinate with character x-coordinate. Or look into smoothstepping (Vector2.MoveTowards)
         //3) When character gets close enough to the moon they explode
-
+	exploded = true;
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
         StartCoroutine(Explode());
@@ -55,3 +57,4 @@ public class GameExplosionScript : MonoBehaviour {
         }
     }
 }
+

@@ -32,7 +32,7 @@ public class GameScript : MonoBehaviour
     ParticleSystem winningPlayerParticles;
 
     public bool DEBUG = false;
-    
+
     float elapsedTime = 0;
     float timeUntilPersonLoses = 1;
     float timePerFlash = 0.5f;
@@ -114,11 +114,11 @@ public class GameScript : MonoBehaviour
                     Debug.Log("Winning player is being lifted");
                 }
 
-                if(Camera.main.transform.position.y < winningPlayerRigidBody.position.y && Camera.main.transform.position.y < ExplosionCollider.transform.position.y)
+                if (Camera.main.transform.position.y < winningPlayerRigidBody.position.y && Camera.main.transform.position.y < ExplosionCollider.transform.position.y)
                 {
                     Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, winningPlayerRigidBody.position.y, Camera.main.transform.position.z);
                 }
-                else if(Camera.main.transform.position.y > ExplosionCollider.transform.position.y)
+                else if (Camera.main.transform.position.y > ExplosionCollider.transform.position.y)
                 {
                     winningPlayerParticles.Stop();
                     floatingForce = 0;
@@ -156,3 +156,4 @@ public class GameScript : MonoBehaviour
         }
     }
 }
+
