@@ -32,9 +32,7 @@ public class SkeletonRagdoll2D : MonoBehaviour
     [Tooltip("If your ragdoll seems unstable or uneffected by limits, try lowering this value.")]
     [Range(0.01f, 1f)]
     public float massFalloffFactor = 0.4f;
-
-    public Player player = Player.One;
-
+    
     [Tooltip("HI")]
     public GameObject StaminaBar;
 
@@ -193,6 +191,7 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 joint.connectedAnchor = localPos;
                 joint.GetComponent<Rigidbody2D>().mass = joint.connectedBody.mass * massFalloffFactor;
                 JointAngleLimits2D limits = new JointAngleLimits2D();
+                joint.GetComponent<Rigidbody2D>().angularDrag = 10;
 
                 limits.min = 0;
                 limits.max = 0;
@@ -201,7 +200,6 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 joint.useLimits = true;
                 joints.Add(b.data.name, joint);
                 StaminaBody script = joint.gameObject.AddComponent<StaminaBody>();
-                script.StaminaBar = StaminaBar;
                 if(b.data.name == "LeftHand")
                 {
                     script.isLeftHand = true;
@@ -210,8 +208,16 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 {
                     script.isRightHand = true;
                 }
-                script.player = player;
-                joint.gameObject.tag = "Player" + (int)player;
+                else if (b.data.name == "RightFoot")
+                {
+                    script.isRightFoot = true;
+                }
+                else if (b.data.name == "LeftFoot")
+                {
+                    script.isLeftFoot = true;
+                }
+                script.player = gameObject.GetComponent<RaggedySpineboy>();
+                joint.gameObject.tag = "Player" + (int)script.player.player;
             }
         }
 

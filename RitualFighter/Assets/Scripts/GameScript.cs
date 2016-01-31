@@ -4,12 +4,9 @@ using UnityEngine.UI;
 
 public class GameScript : MonoBehaviour
 {
-<<<<<<< HEAD
     public GameObject TopHitBox;
     public GameObject ExplosionCollider;
     public GameObject Moon;
-=======
->>>>>>> parent of 3674b2d... Gameplay Code
 
     public enum CurrentGameState
     {
@@ -111,13 +108,7 @@ public class GameScript : MonoBehaviour
             if (!bothPlayersLost)
             {
                 winningPlayerParticles.transform.position = winningPlayerRigidBody.transform.position;
-<<<<<<< HEAD
-
-                winningPlayerRigidBody.velocity = new Vector2(winningPlayerRigidBody.velocity.x, floatingForce);
-
-=======
                 winningPlayerRigidBody.velocity = new Vector2(0, floatingForce);
->>>>>>> parent of 3674b2d... Gameplay Code
                 if (DEBUG)
                 {
                     Debug.Log("Winning player is being lifted");
