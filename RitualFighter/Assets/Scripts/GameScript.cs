@@ -119,8 +119,8 @@ public class GameScript : MonoBehaviour
             playerThatLost = "Player1";
             currentGameState = CurrentGameState.DelayBeforeWin;
 
-            player1Script.DisableControls = true;
-            player2Script.DisableControls = true;
+            player1Script.GameOver = true;
+            player2Script.GameOver = true;
         }
         else if (collider.transform.parent.tag == "Player2")
         {
@@ -131,8 +131,8 @@ public class GameScript : MonoBehaviour
             playerThatLost = "Player2";
             currentGameState = CurrentGameState.DelayBeforeWin;
 
-            player1Script.DisableControls = true;
-            player2Script.DisableControls = true;
+            player1Script.GameOver = true;
+            player2Script.GameOver = true;
         }
     }
 }

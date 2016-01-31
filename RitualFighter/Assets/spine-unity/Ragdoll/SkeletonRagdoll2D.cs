@@ -33,6 +33,8 @@ public class SkeletonRagdoll2D : MonoBehaviour
     [Range(0.01f, 1f)]
     public float massFalloffFactor = 0.4f;
 
+    public Player player = Player.One;
+
     [Tooltip("HI")]
     public GameObject StaminaBar;
 
@@ -200,6 +202,16 @@ public class SkeletonRagdoll2D : MonoBehaviour
                 joints.Add(b.data.name, joint);
                 StaminaBody script = joint.gameObject.AddComponent<StaminaBody>();
                 script.StaminaBar = StaminaBar;
+                if(b.data.name == "LeftHand")
+                {
+                    script.isLeftHand = true;
+                }
+                else if(b.data.name == "RightHand")
+                {
+                    script.isRightHand = true;
+                }
+                script.player = player;
+                joint.gameObject.tag = "Player" + (int)player;
             }
         }
 
