@@ -8,6 +8,8 @@ public class Controller : MonoBehaviour {
     public Image LeftArrow, RightArrow, ControllerImage;
     public bool ReadyPosition = false, Ready = false;
     public Image AButtonImage, ReadyImage;
+    public TeamSelectionScript.Team team = TeamSelectionScript.Team.none;
+    bool left = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +26,7 @@ public class Controller : MonoBehaviour {
             AButtonImage.enabled = true;
             AButtonImage.rectTransform.localPosition = new Vector3(ControllerImage.rectTransform.localPosition.x - AButtonImage.rectTransform.rect.width, ControllerImage.rectTransform.localPosition.y);
             ReadyImage.rectTransform.localPosition = new Vector3(ControllerImage.rectTransform.localPosition.x - ReadyImage.rectTransform.rect.width, ControllerImage.rectTransform.localPosition.y);
+            team = TeamSelectionScript.Team.left;
         }
         else if(RightArrow.GetComponent<SelectionArrowBehavior>().selected && !Ready && !ReadyPosition)
         {
@@ -32,6 +35,7 @@ public class Controller : MonoBehaviour {
             AButtonImage.enabled = true;
             AButtonImage.rectTransform.localPosition = new Vector3(ControllerImage.rectTransform.localPosition.x + AButtonImage.rectTransform.rect.width, ControllerImage.rectTransform.localPosition.y);
             ReadyImage.rectTransform.localPosition = new Vector3(ControllerImage.rectTransform.localPosition.x + ReadyImage.rectTransform.rect.width, ControllerImage.rectTransform.localPosition.y);
+            team = TeamSelectionScript.Team.right;
         }
         else if (Input.GetButton("A" + this.name[name.Length - 1]) && ReadyPosition)
         {
@@ -45,18 +49,24 @@ public class Controller : MonoBehaviour {
             ReadyImage.enabled = false;
             AButtonImage.enabled = true;
         }
-        else if (!RightArrow.GetComponent<SelectionArrowBehavior>().selected && !LeftArrow.GetComponent<SelectionArrowBehavior>().selected)
+        if ((!RightArrow.GetComponent<SelectionArrowBehavior>().selected && !LeftArrow.GetComponent<SelectionArrowBehavior>().selected))
         {
-            ControllerImage.GetComponent<RectTransform>().position = MiddleEmpty.GetComponent<RectTransform>().position;
-            RightArrow.GetComponent<SelectionArrowBehavior>().noSelection = true;
-            RightArrow.GetComponent<Image>().color = Color.red;
-            LeftArrow.GetComponent<SelectionArrowBehavior>().noSelection = true;
-            LeftArrow.GetComponent<Image>().color = Color.red;
-            ReadyPosition = false;
-            AButtonImage.enabled = false; 
-            Ready = false;
-            ReadyImage.enabled = false; 
+            ResetTeam();
         }
         
 	}
+
+    public void ResetTeam()
+    {
+        ControllerImage.GetComponent<RectTransform>().position = MiddleEmpty.GetComponent<RectTransform>().position;
+        RightArrow.GetComponent<SelectionArrowBehavior>().noSelection = true;
+        RightArrow.GetComponent<Image>().color = Color.red;
+        LeftArrow.GetComponent<SelectionArrowBehavior>().noSelection = true;
+        LeftArrow.GetComponent<Image>().color = Color.red;
+        ReadyPosition = false;
+        AButtonImage.enabled = false;
+        Ready = false;
+        ReadyImage.enabled = false;
+        team = TeamSelectionScript.Team.none;
+    }
 }
