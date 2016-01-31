@@ -8,6 +8,8 @@ public class GameScript : MonoBehaviour
     public GameObject ExplosionCollider;
     public GameObject Moon;
 
+    public AudioClip booFX;
+
     public Text winControlText;
     public enum CurrentGameState
     {
@@ -69,6 +71,11 @@ public class GameScript : MonoBehaviour
                 if (bothPlayersLost)
                 {
                     winText.text = "Nobody Wins...";
+                    if(SoundManager.instance != null)
+                    {
+                        SoundManager.instance.PlaySingle(booFX);
+                    }
+
                 }
                 else if (playerThatLost == "Player1")
                 {
