@@ -5,11 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameExplosionScript : MonoBehaviour
 {
-    public AudioClip explosionSound;
-
     SkeletonRagdoll2D skeletonToExplode;
     
     bool exploded = false;
+    bool explosionSoundPlayed = false;
 
     void Start()
     {
@@ -20,6 +19,7 @@ public class GameExplosionScript : MonoBehaviour
     {
         if (exploded)
         {
+
             if (Input.GetButton("B1") || Input.GetKeyDown(KeyCode.B))
             {
                 SceneManager.LoadScene("TeamSelect");
@@ -40,10 +40,7 @@ public class GameExplosionScript : MonoBehaviour
         //3) When character gets close enough to the moon they explode
         exploded = true;
 
-        if(SoundManager.instance != null)
-        {
-            SoundManager.instance.PlaySingle(explosionSound);
-        }
+
 
         skeletonToExplode = collider.transform.parent.GetComponent<SkeletonRagdoll2D>();
 
@@ -61,6 +58,14 @@ public class GameExplosionScript : MonoBehaviour
 
             //apply it bro
             skeletonToExplode.boneTable[b].GetComponent<Rigidbody2D>().AddForce(randomForce);
+        }
+        if (!explosionSoundPlayed)
+        {
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.PlaySound("Lightning");
+            }
+            explosionSoundPlayed = true;
         }
     }
 }
