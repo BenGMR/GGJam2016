@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject TopHitBox;
-    public GameObject ExplosionCollider;
-    public GameObject Moon;
 
     public enum CurrentGameState
     {
@@ -36,7 +33,6 @@ public class GameScript : MonoBehaviour
     float elapsedTime = 0;
     float timeUntilPersonLoses = 1;
     float timePerFlash = 0.5f;
-    float elapsedMoveToMoonTime = 0;
 
     public float floatingForce = .1f;
 
@@ -77,10 +73,6 @@ public class GameScript : MonoBehaviour
                     winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("Torso");
                     winningPlayerParticles = Player2.GetComponentInChildren<ParticleSystem>();
                     winningPlayerParticles.Play();
-                    ExplosionCollider.transform.position = new Vector3(winningPlayerRigidBody.transform.position.x, ExplosionCollider.transform.position.y, ExplosionCollider.transform.position.z);
-                    Moon.transform.position = ExplosionCollider.transform.position;
-                    TopHitBox.gameObject.SetActive(false);
-                    Destroy(GetComponent<BoxCollider2D>());
                 }
                 else if (playerThatLost == "Player2")
                 {
@@ -89,17 +81,12 @@ public class GameScript : MonoBehaviour
                     winningPlayerRigidBody = winningPlayerSkeleton.GetRigidbody("Torso");
                     winningPlayerParticles = Player1.GetComponentInChildren<ParticleSystem>();
                     winningPlayerParticles.Play();
-                    ExplosionCollider.transform.position = new Vector3(winningPlayerRigidBody.transform.position.x, ExplosionCollider.transform.position.y, ExplosionCollider.transform.position.z);
-                    Moon.transform.position = ExplosionCollider.transform.position;
-                    TopHitBox.gameObject.SetActive(false);
-                    Destroy(GetComponent<BoxCollider2D>());
                 }
                 elapsedTime = 0;
             }
         }
         else if (currentGameState == CurrentGameState.SomeoneWins)
         {
-            elapsedMoveToMoonTime += Time.deltaTime;
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timePerFlash)
             {
@@ -110,22 +97,12 @@ public class GameScript : MonoBehaviour
             if (!bothPlayersLost)
             {
                 winningPlayerParticles.transform.position = winningPlayerRigidBody.transform.position;
-
-                winningPlayerRigidBody.velocity = new Vector2(winningPlayerRigidBody.velocity.x, floatingForce);
-
+                winningPlayerRigidBody.velocity = new Vector2(0, floatingForce);
                 if (DEBUG)
                 {
                     Debug.Log("Winning player is being lifted");
                 }
 
-                if(Camera.main.transform.position.y < winningPlayerRigidBody.position.y && Camera.main.transform.position.y < ExplosionCollider.transform.position.y)
-                {
-                    Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, winningPlayerRigidBody.position.y, Camera.main.transform.position.z);
-                }
-                else if(Camera.main.transform.position.y > ExplosionCollider.transform.position.y)
-                {
-                    winningPlayerParticles.Stop();
-                }
             }
         }
     }
