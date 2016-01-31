@@ -97,8 +97,9 @@ public class RaggedySpineboy : MonoBehaviour {
             DisableControls = true;
             StartCoroutine(staminaRegen());
         }
+
         if (!DisableControls && !GameOver)
-        {
+        { 
             if (leftGrounded && rightGrounded && Input.GetButton("LeftBumper" + ((int)player).ToString()))
             {
                 torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
@@ -107,11 +108,7 @@ public class RaggedySpineboy : MonoBehaviour {
             {
                 torso.AddForce(new Vector2(0, 250), ForceMode2D.Impulse);
             }
-            if (Input.GetButton("Start" + ((int)player).ToString()))
-            {
-                Debug.Log(string.Format("Start pressed on player {0}", player));
-                SceneManager.LoadScene("Settings");
-            }
+
             hip.AddForce(new Vector2(0, 500 * Input.GetAxis("RightStickVertical" + ((int)player).ToString())));
 
             torso.AddForce(new Vector2(500 * Input.GetAxis("RightStickHorizontal" + ((int)player).ToString()), 0));

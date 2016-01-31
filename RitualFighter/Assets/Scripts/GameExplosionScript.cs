@@ -1,18 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Spine;
+using UnityEngine.SceneManagement;
 
 public class GameExplosionScript : MonoBehaviour {
 
 
     SkeletonRagdoll2D skeletonToExplode;
+    bool exploded = false;
 
     void Start () {
 	
 	}
 	
 	void Update () {
-	
+        if (exploded)
+        {
+            if (Input.GetButton("B1"))
+            {
+                SceneManager.LoadScene("TeamSelect");
+            }
+            else if (Input.GetButton("A1"))
+            {
+                SceneManager.LoadScene("Game");
+            }
+        }
 	}
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -30,6 +42,7 @@ public class GameExplosionScript : MonoBehaviour {
 
     IEnumerator Explode()
     {
+        exploded = true;
         yield return new WaitForSeconds(1);
         foreach (Bone b in skeletonToExplode.boneTable.Keys)
         {
