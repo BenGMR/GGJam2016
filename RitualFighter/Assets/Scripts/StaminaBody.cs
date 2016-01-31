@@ -32,7 +32,7 @@ public class StaminaBody : MonoBehaviour
                 float collisionForce = coll.rigidbody.velocity.magnitude;
                 rb.AddForce(coll.relativeVelocity / stamina.Health * (isHead ? 1.5f : 1));
                 stamina.DecreaseBar(collisionForce / 5f * (isHead ? 1.5f : 1));
-                if (isHead || isLeftFoot || isLeftHand || isRightFoot || isRightHand && rb.velocity.magnitude > 5)
+                if (isHead || isLeftFoot || isLeftHand || isRightFoot || isRightHand && rb.velocity.magnitude > 10)
                 {
                     SoundManager.instance.PlaySound("Punch");
                 }
